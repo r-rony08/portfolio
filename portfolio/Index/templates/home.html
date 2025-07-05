@@ -1,10 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>My Portfolio</title>
+    <link rel="stylesheet" href="{% static 'index/css/style.css' %}">
 </head>
 <body>
     <h1>Welcome to My Portfolio</h1>
-    <p>This is the homepage rendered using a template!</p>
+    <p>This is the homepage styled with CSS!</p>
+
+    <!--  Your image here -->
+    <img src="{% static 'images/profile.jpg' %}" alt="Profile" width="200">
+
 </body>
 </html>
+
