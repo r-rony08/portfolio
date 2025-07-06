@@ -1,45 +1,28 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+{% extends 'base.html' %}
+{% block title %}My Portfolio{% endblock %}
+{% block content %}
 
-<div class="container py-5">
-    <h1 class="text-center mb-4">My Portfolio</h1>
-    <div class="text-end mb-3">
-        <a href="{% url 'upload_project' %}" class="btn btn-primary">Upload New Project</a>
-    </div>
+<h1 class="text-center mb-4">My Portfolio</h1>
 
-    {% for project in projects %}
-        <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-                <h4 class="card-title">{{ project.title }}</h4>
-                <p class="card-text">{{ project.description }}</p>
+{% for project in projects %}
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title">{{ project.title }}</h4>
+            <p class="card-text">{{ project.description }}</p>
 
-                {% if project.image %}
-                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-fluid mb-2" style="max-height: 300px;">
-                {% endif %}
+            {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-fluid mb-2" style="max-height: 300px;">
+            {% endif %}
 
-                {% if project.file %}
-                    <a href="{{ project.file.url }}" class="btn btn-sm btn-success" download>Download File</a>
-                {% endif %}
-                
-            </div>
+            {% if project.file %}
+                <a href="{{ project.file.url }}" class="btn btn-sm btn-success" download>Download File</a>
+            {% endif %}
+
             <a href="{% url 'project_detail' project.pk %}" class="btn btn-outline-primary mt-2">View Details</a>
-
         </div>
+    </div>
+{% empty %}
+    <p>No projects to display yet.</p>
+{% endfor %}
 
-    {% empty %}
-        <p>No projects found.</p>
-    {% endfor %}
-</div>
-
-</body>
-</html>
-
-
-
+{% endblock %}
