@@ -4,6 +4,8 @@ from .models import Project
 from django.shortcuts import redirect
 from .forms import ProjectForm
 
+from django.shortcuts import get_object_or_404
+
 # Create your views here.
 
 def home(request):
@@ -20,4 +22,8 @@ def upload_project(request):
     else:
         form = ProjectForm()
     return render(request, 'upload.html', {'form': form})
+
+def project_detail(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    return render(request, 'project_detail.html', {'project': project})
 
