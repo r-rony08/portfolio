@@ -1,28 +1,59 @@
 {% extends 'base.html' %}
-{% block title %}My Portfolio{% endblock %}
+{% block title %}Home{% endblock %}
 {% block content %}
 
-<h1 class="text-center mb-4">My Portfolio</h1>
+<h2 class="mb-4">My Projects</h2>
 
-{% for project in projects %}
+{% for project in page_obj %}
     <div class="card mb-4 shadow-sm">
         <div class="card-body">
-            <h4 class="card-title">{{ project.title }}</h4>
-            <p class="card-text">{{ project.description }}</p>
+            <h4>{{ project.title }}</h4>
+            <p>{{ project.description|truncatewords:20 }}</p>
 
             {% if project.image %}
-                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-fluid mb-2" style="max-height: 300px;">
+                <img src="{{ project.image.url }}" class="img-fluid mb-2" style="max-height: 300px;">
             {% endif %}
 
             {% if project.file %}
-                <a href="{{ project.file.url }}" class="btn btn-sm btn-success" download>Download File</a>
+                <a href="{{ project.file.url }}" class="btn btn-sm btn-success" download>Download</a>
             {% endif %}
 
             <a href="{% url 'project_detail' project.pk %}" class="btn btn-outline-primary mt-2">View Details</a>
         </div>
     </div>
 {% empty %}
-    <p>No projects to display yet.</p>
+    <p>No projects yet.</p>
 {% endfor %}
+
+<!-- ✅ Place this directly after the for-loop -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+            </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <a class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a>
+        </li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">Next</a>
+            </li>
+        {% endif %}
+
+    </ul>
+</nav>
 
 {% endblock %}
